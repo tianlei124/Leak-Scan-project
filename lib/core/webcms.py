@@ -2,8 +2,9 @@
 
 import json,os,sys,hashlib,threading
 import queue
-from lib.core import Downloader
+from lib.core import Downloader,outputer
 
+output = outputer.outputer()
 class webcms(object):
     workqueue = queue.Queue()
     URL = ""
@@ -39,6 +40,7 @@ class webcms(object):
         _url = self.URL + cms["url"]
         html = self.downloader.get(_url)
         print("[Whatweb log]:checking %s" % _url)
+        output.add_list("[Whatweb log]:","checking %s" % _url)
 
         if(html is None):
             return False
@@ -68,5 +70,7 @@ class webcms(object):
             
             if(self.result):
                 print("[webcms]:%s cms is %s"%(self.URL,self.result))
+                output.add_list("[webcms]:","%s cms is %s"%(self.URL,self.result))
             else:
                 print("[webcms]:%s is notFound!"%self.URL)
+                output.add_list("[webcms]:","%s is notFound!"%self.URL)

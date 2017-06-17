@@ -4,7 +4,7 @@ import os
 import sys
 
 class spiderplus(object):
-
+    
     def __init__(self,plugin,disallow=[]):
         self.dir_exploit = []
         self.disallow = ['__init__']

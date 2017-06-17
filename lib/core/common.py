@@ -3,7 +3,6 @@
 from urllib.request import urlparse
 import socket
 
-
 def urlsplit(url):
     domian = url.split("?")[0]
     _url = url.split("?")[-1]
@@ -23,3 +22,17 @@ def gethostbyname(url):
         return None
     ip = socket.gethostbyname(domian.netloc)
     return ip
+
+def w8urlparse(url):
+    domian = urlparse(url)
+    #domian.netloc
+    if domian.netloc is None:
+        return None
+    return domian.netloc
+
+def GetMiddleStr(content,startStr,endStr):
+    startIndex = content.index(startStr)
+    if startIndex >= 0:
+        startIndex += len(startStr)
+    endIndex = content.index(endStr)
+    return content[startIndex:endIndex]

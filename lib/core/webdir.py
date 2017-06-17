@@ -2,7 +2,9 @@
 
 import sys,os,queue
 import threading,requests
+from lib.core import outputer
 
+output = outputer.outputer()
 
 class webdir(object):
 
@@ -11,8 +13,6 @@ class webdir(object):
         self.threadNum = threadNum
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20',
-            'Referer': 'http://www.shiyanlou.com',
-            'Cookie': 'whoami=w8ay',
         }
         self.task = queue.Queue()
         self.s_list = []
@@ -37,6 +37,7 @@ class webdir(object):
             if s_code==200:
                 self.s_list.append(url)
             print("Testing:%s status:%s"%(url,s_code))
+            output.add_list("Testing:","%s status:%s"%(url,s_code))
 
     def work(self):
         threads = []
@@ -47,6 +48,7 @@ class webdir(object):
         for t in threads:
             t.join()
         print("[*] The DirScan is complete!")
+        output.add_list("[*] The DirScan is complete!","")
 
     def output(self):
         if len(self.s_list):

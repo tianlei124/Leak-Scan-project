@@ -1,12 +1,13 @@
 #-*- coding:utf-8 -*-
 
-from urllib.request import urlparse
-from lib.core.Downloader import Downloader
 import sys
+from urllib.request import urlparse
+from lib.core.Downloader import Downloader,outputer
 
 DIR_PROBE_EXTS = ['.tar.gz', '.zip', '.rar', '.tar.bz2']
 FILE_PROBE_EXTS = ['.bak', '.swp', '.1']
 downloader = Downloader()
+output = outputer.outputer()
 
 def get_parent_paths(path):
     paths = []
@@ -41,6 +42,8 @@ class spider:
             web_paths.append(u)
         for path in web_paths:
             print ("[web path]:%s"%path)
+            output.add_list("[web path]:","%s"%path)
             if(downloader.get(path) is not None):
                 print ("[+] bak file has found :%s"%path)
+                output.add_list("[+] bak file has found :","%s"%path)
         return False

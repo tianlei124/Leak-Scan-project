@@ -1,14 +1,14 @@
 #-*- coding:utf-8 -*--
 
-from lib.core import Downloader,UrlManager,plugin
-#from script import sqlcheck
 import threading
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
+from lib.core import Downloader,UrlManager,plugin,outputer
 
+output = outputer.outputer()
 
 class SpiderMain(object):
-    
+
     def __init__(self,root,threadNum):
         self.urls = UrlManager.UrlManager()
         self.download = Downloader.Downloader()
@@ -55,6 +55,7 @@ class SpiderMain(object):
                     continue'''
                 # sql check
                 print("crew:" + new_url)
+                output.add_list("crew:","url:%s"%new_url)
                 t = threading.Thread(target=self.download.download,args=(new_url,_content))
                 t.start()
                 th.append(t)
@@ -64,7 +65,7 @@ class SpiderMain(object):
             if _str is None:
                 continue
             new_urls = self._parse(new_url,_str["html"])
-            disallow = ["sqlcheck"]
+            disallow = []
             _plugin = plugin.spiderplus("script",disallow)
             _plugin.work(_str["url"],_str["html"])
             self.urls.add_new_url(new_urls)
